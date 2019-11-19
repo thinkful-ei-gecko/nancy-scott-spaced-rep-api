@@ -13,6 +13,14 @@ const LanguageService = {
       .first()
   },
 
+  getHead(db, user_id) {
+    return db
+      .from('language').where('language.user_id', '=', user_id)
+      .join('word', function() {
+        this.on('word.id', '=', 'language.head')
+      })
+  },
+
   getLanguageWords(db, language_id) {
     return db
       .from('word')

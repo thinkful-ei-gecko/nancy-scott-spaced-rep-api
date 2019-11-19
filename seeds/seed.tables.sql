@@ -17,7 +17,7 @@ VALUES
 
 INSERT INTO "language" ("id", "name", "user_id")
 VALUES
-  (1, 'French', 1);
+  (1, 'Algorithms', 1);
 
 INSERT INTO "word" ("id", "language_id", "original", "translation", "next")
 VALUES
@@ -25,10 +25,10 @@ VALUES
   (2, 1, 'quickSort.png', 'quick sort', 3),
   (3, 1, 'mergeSort.png', 'merge sort', 4),
   (4, 1, 'binarySearch.png', 'binary search', 5),
-  (5, 1, 'inOrderTraversal', 'in-order traversal', 6),
+  (5, 1, 'inOrderTraversal.png', 'in-order traversal', 6),
   (6, 1, 'combSort.png', 'comb sort', 7),
   (7, 1, 'heapSort.png', 'heap sort', 8),
-  (8, 1, 'postOrderTraversal', 'post-order traversal', null);
+  (8, 1, 'postOrderTraversal.png', 'post-order traversal', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 
