@@ -1,8 +1,9 @@
-const express = require('express')
-const LanguageService = require('./language-service')
-const { requireAuth } = require('../middleware/jwt-auth')
+const express = require('express');
+const LanguageService = require('./language-service');
+const { requireAuth } = require('../middleware/jwt-auth');
 
-const languageRouter = express.Router()
+const languageRouter = express.Router();
+const bodyParser = express.json();
 
 languageRouter
   .use(requireAuth)
@@ -46,7 +47,6 @@ languageRouter
 languageRouter
   .get('/head', async (req, res, next) => {
     try {
-      console.log(req.user.id);
       const headWord = await LanguageService.getHead(
         req.app.get('db'),
         req.user.id
@@ -57,15 +57,46 @@ languageRouter
         wordCorrectCount: headWord[0].correct_count,
         wordIncorrectCount: headWord[0].incorrect_count
       })
+      res.send('blah')
       next()
     } catch (error) {
       next(error)
     }
   })
 
+  // languageRouter
+  // .get('/head', async (req, res, next) => {
+  //   try {
+  //     const list = await LanguageService.generateLinkedList(
+  //       req.app.get('db'),
+  //       req.user.id
+  //     )
+
+  //     next()
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // })
+
 languageRouter
+  .use(bodyParser)
   .post('/guess', async (req, res, next) => {
-    // implement me
+    try {
+
+      const { guess } = req.body;
+
+      const list = await LanguageService.generateLinkedList(
+        req.app.get('db'),
+        req.user.id
+      )
+      const verdict = guess === list.head.value.translation;
+
+      const updatedList = LanguageService.updateLinkedList(verdict, list);
+
+      next()
+    } catch (error) {
+      next(error)
+    }
     res.send('implement me!')
   })
 
