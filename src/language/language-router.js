@@ -64,20 +64,6 @@ languageRouter
     }
   })
 
-  // languageRouter
-  // .get('/head', async (req, res, next) => {
-  //   try {
-  //     const list = await LanguageService.generateLinkedList(
-  //       req.app.get('db'),
-  //       req.user.id
-  //     )
-
-  //     next()
-  //   } catch (error) {
-  //     next(error)
-  //   }
-  // })
-
 languageRouter
   .use(bodyParser)
   .post('/guess', async (req, res, next) => {

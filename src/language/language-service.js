@@ -63,7 +63,7 @@ const LanguageService = {
     }))
     return linkedList;
   },
-
+  // spaced rep algorithm
   updateLinkedList(wasCorrect, linkedList) {
     // if correct (double M) and move
     //if not correct (reset M) and move
@@ -72,6 +72,8 @@ const LanguageService = {
     } else {
       linkedList.head.memory_value = 1; 
     }
+    //TODO
+    // move the head to the correct memory value slot
   },
 
   updateDatabase(linkedList, user_id) {
