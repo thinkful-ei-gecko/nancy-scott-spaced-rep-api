@@ -1,6 +1,7 @@
 const express = require('express');
 const LanguageService = require('./language-service');
 const { requireAuth } = require('../middleware/jwt-auth');
+const listHelpers = require('../linked-list/linkedListHelpers')
 
 const languageRouter = express.Router();
 const bodyParser = express.json();
@@ -46,7 +47,7 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    console.log('in head')
+    // console.log('in head')
     try {
       const headWord = await LanguageService.getHead(
         req.app.get('db'),
@@ -72,21 +73,38 @@ languageRouter
 
       const { guess } = req.body;
       // console.log('guess:', guess)
-      const list = await LanguageService.generateLinkedList(
-        req.app.get('db'),
-        req.user.id
-      )
+      // const list = await LanguageService.generateLinkedList(
+      //   req.app.get('db'),
+      //   req.user.id
+      // )
 
-      // console.log(JSON.stringify(list, null, 2))
-      const verdict = guess === list.head.value.translation;
-      console.log(verdict)
+      let language =  await LanguageService.getUsersLanguage(req.app.get('db'), req.user.id)
+      let words = await LanguageService.getLanguageWords(req.app.get('db'), language.id)
+      // console.log(language, words)
+      // let words = LanguageService.getLanguageWords(req.app.get('db'), language.id)
+      const altList = await LanguageService.revGenLinkedList(language,words)
+
+      let currentQid = altList.head.value.id
+
+      const verdict = guess === altList.head.value.translation;
+      // console.log(verdict)
       // LanguageService.updateLinkedList(verdict, list);
-      const updatedList = LanguageService.updateLinkedList(verdict, list, req.app.get('db'));
-      console.log('in /guess',JSON.stringify(updatedList, null, 2))
+      const updatedList = LanguageService.updateLinkedList(verdict, altList, req.app.get('db'));
+      console.log('in /guess', JSON.stringify(updatedList, null, 2))
 
       LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
       // LanguageService.updateBeforeMovedWordDatabase(req.app.get('db'), updatedList)
 
+      let values = listHelpers.find(updatedList, currentQid)
+      
+      res.json({
+        answer: values.translation,
+        isCorrect: verdict,
+        nextWord: updatedList.head.value.original,
+        totalScore: updatedList.total_score,
+        wordCorrectCount: values.correct_count,
+        wordIncorrectCount: values.incorrect_count
+      })
       next()
     } catch (error) {
       next(error)

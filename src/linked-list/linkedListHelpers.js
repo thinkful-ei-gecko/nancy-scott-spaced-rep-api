@@ -26,13 +26,15 @@ const listHelpers = {
   isEmpty(linkedList) {
     return !linkedList.head;
   },
-  findPrevious(linkedList, item) {
+
+
+  findPreviousId(linkedList, id) {
     let prevNode = linkedList.head;
     let currNode = linkedList.head;
     if (!linkedList.head) {
       return null;
     }
-    while (currNode.value !== item) {
+    while (currNode.value.id !== id) {
       if (currNode.next === null) {
         return null
       } else {
@@ -40,24 +42,29 @@ const listHelpers = {
         currNode = currNode.next;
       }
     }
-    return prevNode
+    console.log('in findprevious', prevNode)
+    return prevNode.value.id
   },
-  // findNext(linkedList, id) {
-  //   let prevNode = linkedList.head;
-  //   let currNode = linkedList.head;
-  //   if (!linkedList.head) {
-  //     return null;
-  //   }
-  //   while (currNode.value !== id) {
-  //     if (currNode.next === null) {
-  //       return null
-  //     } else {
-  //       prevNode = currNode;
-  //       currNode = currNode.next;
-  //     }
-  //   }
-  //   return currNode
-  // },
+
+
+  find(linkedList, id) {
+
+    console.log('in find', id)
+    let currNode = linkedList.head;
+    if (!linkedList.head) {
+      return null;
+    }
+    while (currNode.value.id !== id) {
+      if (currNode.next === null) {
+        return null
+      } else {
+        currNode = currNode.next;
+      }
+    }
+    console.log('in find node in helpers', currNode.value.id)
+    return currNode.value
+  },
+
   findLast(linkedList) {
     let currNode = linkedList.head;
     if (!linkedList.head) {

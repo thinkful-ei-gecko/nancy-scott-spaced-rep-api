@@ -64,13 +64,14 @@ class LinkedList {
     if (!this.head) {
       this.insertFirst(item);
     }
-    if (pos <= 1) {
-      this.head = new Node(item, this.head)
-    }
+    // if (pos <= 1) {
+    //   this.head = new Node(item, this.head)
+
+    // }
     let prevNode = this.head;
     let currNode = this.head;
     let currPos = 1;
-
+    
     while (currPos <= pos + 1 && currNode !== null) {
 
       console.log('in while loop')
@@ -79,19 +80,16 @@ class LinkedList {
       currPos += 1;
     }
     // console.log('prevNode.next before moving',prevNode.next)
-    console.log('currNode is',currNode)
+    // console.log('currNode is',currNode)
     prevNode.next = new Node(item, currNode);
-
+    console.log('new node inserted')
     //id1's next (2) = prevNode.next.next.value.id (4)
-    console.log(prevNode.next.value.next, prevNode.next.next.value.id)
+    // console.log(prevNode.next.value.next, prevNode.next.next.value.id)
 
     ////// updating the node before the newly inserted node
     ////// updating the databases' 'next' 
-    // console.log('should be at 3',prevNode.value.next, prevNode.next.value.id)
     // console.log( 'is the prev.node', prevNode.value.id)
-    // let wordId = prevNode.value.id
-    // let updatedNext = prevNode.next.value.id
-    // LanguageService.updateBeforeMovedWordDatabase(db, wordId, updatedNext)
+
 
     prevNode.value.next = prevNode.next.value.id
 
@@ -127,6 +125,7 @@ class LinkedList {
   }
   remove(item) {
     console.log('in remove--------------')
+    console.log(item)
 
     let removedNode
     if (!this.head) {
