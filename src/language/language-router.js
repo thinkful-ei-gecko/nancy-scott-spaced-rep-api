@@ -46,6 +46,7 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
+    console.log('in head')
     try {
       const headWord = await LanguageService.getHead(
         req.app.get('db'),
@@ -70,14 +71,20 @@ languageRouter
     try {
 
       const { guess } = req.body;
-
+      // console.log('guess:', guess)
       const list = await LanguageService.generateLinkedList(
         req.app.get('db'),
         req.user.id
       )
-      const verdict = guess === list.head.value.translation;
 
-      const updatedList = LanguageService.updateLinkedList(verdict, list);
+      // console.log(JSON.stringify(list, null, 2))
+      const verdict = guess === list.head.value.translation;
+      console.log(verdict)
+      // LanguageService.updateLinkedList(verdict, list);
+      const updatedList = LanguageService.updateLinkedList(verdict, list, req.app.get('db'));
+      console.log('in /guess',JSON.stringify(updatedList, null, 2))
+
+      LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
 
       next()
     } catch (error) {

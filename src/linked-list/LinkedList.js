@@ -1,5 +1,6 @@
 const Node = require('./Node');
 const listHelpers = require('./linkedListHelpers');
+const LanguageService = require('../language/language-service')
 
 class LinkedList {
   constructor() {
@@ -57,6 +58,9 @@ class LinkedList {
   }
 
   insertAt(item, pos) {
+  // console.log('item is', item)
+  //   console.log('this.head is ',this.head)
+    // console.log('linked is ', ll)
     if (!this.head) {
       this.insertFirst(item);
     }
@@ -67,12 +71,28 @@ class LinkedList {
     let currNode = this.head;
     let currPos = 1;
 
-    while (currPos < pos && currNode !== null) {
+    while (currPos <= pos + 1 && currNode !== null) {
+
+      console.log('in while loop')
       prevNode = currNode;
       currNode = currNode.next;
       currPos += 1;
     }
+    // console.log('prevNode.next before moving',prevNode.next)
+    console.log('currNode is',currNode)
     prevNode.next = new Node(item, currNode);
+
+    //id1's next (2) = prevNode.next.next.value.id (4)
+    console.log(prevNode.next.value.next, prevNode.next.next.value.id)
+
+    ////// updating the node before the newly inserted node
+    ////// updating the databases' 'next' 
+    prevNode.value.next = prevNode.next.value.id
+
+    ///// updating the newly inserted, databases' 'next' 
+    prevNode.next.value.next = prevNode.next.next.value.id
+    // console.log('prevNode.next AFTER moving',prevNode.next)
+
   }
 
   createCycle(data) {
