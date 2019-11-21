@@ -42,6 +42,22 @@ const listHelpers = {
     }
     return prevNode
   },
+  // findNext(linkedList, id) {
+  //   let prevNode = linkedList.head;
+  //   let currNode = linkedList.head;
+  //   if (!linkedList.head) {
+  //     return null;
+  //   }
+  //   while (currNode.value !== id) {
+  //     if (currNode.next === null) {
+  //       return null
+  //     } else {
+  //       prevNode = currNode;
+  //       currNode = currNode.next;
+  //     }
+  //   }
+  //   return currNode
+  // },
   findLast(linkedList) {
     let currNode = linkedList.head;
     if (!linkedList.head) {
@@ -118,3 +134,5 @@ const listHelpers = {
     return false;
   },
 }
+
+module.exports = listHelpers

@@ -1,5 +1,6 @@
 const LinkedList = require('../linked-list/LinkedList');
-const llHelp = require('../linked-list/linkedListHelpers');
+const listHelpers = require('../linked-list/linkedListHelpers');
+
 
 const LanguageService = {
   getUsersLanguage(db, user_id) {
@@ -68,7 +69,7 @@ const LanguageService = {
   updateLinkedList(wasCorrect, linkedList, db) {
     // if correct (double M) and move
     //if not correct (reset M) and move
-    console.log('linkedlist in update ll', JSON.stringify(linkedList, null, 2))
+    // console.log('linkedlist in update ll', JSON.stringify(linkedList, null, 2))
     if (wasCorrect) {
       linkedList.head.value.memory_value *= 2; 
       // this.updateMValue(db, linkedList.head.value.id, linkedList.head.value.memory_value)
@@ -87,35 +88,33 @@ const LanguageService = {
     // console.log(linkedList.head)
     linkedList.insertAt(linkedList.head.value, linkedList.head.value.memory_value)
 
-    this.updateWordDatabase(db, linkedList.head.value.id, linkedList.head.value.memory_value, linkedList.head.value.correct_count, linkedList.head.value.incorrect_count, linkedList.head.value.next)
+    this.updateMovedWordDatabase(db, linkedList.head.value.id, linkedList.head.value.memory_value, linkedList.head.value.correct_count, linkedList.head.value.incorrect_count, linkedList.head.value.next)
+    
+    //.remove returns the id of the node it st removed
+    let idRemoved = linkedList.remove(linkedList.head.value)
 
-    linkedList.remove(linkedList.head.value)
+    //To DO: need to get the updatedNext value
+    this.updateBeforeMovedWordDatabase(db, idRemoved, )
     // console.log(JSON.stringify(linkedList, null, 2))
+    console.log('THIS SHOULD BE THE UPDATED LINKEDLIST',JSON.stringify(linkedList, null, 2))
     return linkedList
   },
 
-  async updateWordDatabase(db, wordId, mvalue, correctC, incorrectC, next){
-    console.log('in updateMvalue',wordId, mvalue, correctC, incorrectC, next)
-    return await db('word')
-      .where('id', wordId)
-      .update({
-        memory_value: mvalue,
-        correct_count: correctC,
-        incorrect_count: incorrectC,
-        next: next
-      })
+  async updateMovedWordDatabase(db, wordId, mvalue, correctC, incorrectC, next){
+    // console.log('in updateMvalue',wordId, mvalue, correctC, incorrectC, next)
+    // return await db('word')
+    //   .where('id', wordId)
+    //   .update({
+    //     memory_value: mvalue,
+    //     correct_count: correctC,
+    //     incorrect_count: incorrectC,
+    //     next: next
+    //   })
   },
 
-  updateWordNextDb(db, linkedList, user_id, wordsId, next) {
-    // let prevNode = linkedList.head;
-    // let currNode = linkedList.head;
-    // let currPos = 1;
-    // while (currPos <= dataset.length && currNode !== null) {
-    //   prevNode = currNode;
-    //   currNode = currNode.next;
-    //   currPos += 1;
-    // }
 
+  async updateBeforeMovedWordDatabase(db, wordId, updatedNext){
+    console.log('in updateBforeMoved', db,  wordId, updatedNext)
   },
 
   async updateLanguageDatabase(db, linkedList, user_id) {

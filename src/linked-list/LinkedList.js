@@ -87,6 +87,12 @@ class LinkedList {
 
     ////// updating the node before the newly inserted node
     ////// updating the databases' 'next' 
+    // console.log('should be at 3',prevNode.value.next, prevNode.next.value.id)
+    // console.log( 'is the prev.node', prevNode.value.id)
+    // let wordId = prevNode.value.id
+    // let updatedNext = prevNode.next.value.id
+    // LanguageService.updateBeforeMovedWordDatabase(db, wordId, updatedNext)
+
     prevNode.value.next = prevNode.next.value.id
 
     ///// updating the newly inserted, databases' 'next' 
@@ -120,12 +126,17 @@ class LinkedList {
     return currNode;
   }
   remove(item) {
+    console.log('in remove--------------')
+
+    let removedNode
     if (!this.head) {
       return null;
     }
     if (this.head.value === item) {
+      console.log('in remove',this.head)
+      removedNode = this.head.value.id
       this.head = this.head.next;
-      return;
+      return removedNode;
     }
     let currNode = this.head;
     let prevNode = this.head;
@@ -137,6 +148,7 @@ class LinkedList {
       console.log('Item not found');
       return;
     }
+
     prevNode.next = currNode.next;
   }
 }

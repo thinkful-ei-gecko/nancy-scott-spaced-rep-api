@@ -85,6 +85,7 @@ languageRouter
       console.log('in /guess',JSON.stringify(updatedList, null, 2))
 
       LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
+      // LanguageService.updateBeforeMovedWordDatabase(req.app.get('db'), updatedList)
 
       next()
     } catch (error) {
