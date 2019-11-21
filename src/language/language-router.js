@@ -76,15 +76,20 @@ languageRouter
         req.app.get('db'),
         req.user.id
       )
-
+      const altList = await LanguageService.revGenLinkedList(
+        req.app.get('db'),
+        req.user.id
+      )
+      console.log('alt list is ')
+      console.log(JSON.stringify(altList, null, 2))
       // console.log(JSON.stringify(list, null, 2))
-      const verdict = guess === list.head.value.translation;
-      console.log(verdict)
-      // LanguageService.updateLinkedList(verdict, list);
-      const updatedList = LanguageService.updateLinkedList(verdict, list, req.app.get('db'));
-      console.log('in /guess',JSON.stringify(updatedList, null, 2))
+      // const verdict = guess === list.head.value.translation;
+      // // console.log(verdict)
+      // // LanguageService.updateLinkedList(verdict, list);
+      // const updatedList = LanguageService.updateLinkedList(verdict, list, req.app.get('db'));
+      // // console.log('in /guess', JSON.stringify(updatedList, null, 2))
 
-      LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
+      // LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
 
       next()
     } catch (error) {
