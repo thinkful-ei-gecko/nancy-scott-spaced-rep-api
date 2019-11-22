@@ -1,6 +1,4 @@
 const Node = require('./Node');
-const listHelpers = require('./linkedListHelpers');
-const LanguageService = require('../language/language-service')
 
 class LinkedList {
   constructor() {
@@ -19,24 +17,6 @@ class LinkedList {
       tempNode = tempNode.next;
     }
     tempNode.next = new Node(item, null)
-  }
-
-  insertBefore(item, itemBefore) {
-    if (!this.head) {
-      this.insertLast(item);
-    }
-    let currNode = this.head;
-    let prevNode = this.head;
-
-    while (currNode !== null && currNode.value !== itemBefore) {
-      prevNode = currNode;
-      currNode = currNode.next;
-    }
-    if (currNode === null) {
-      this.insertLast(item);
-      return;
-    }
-    prevNode.next = new Node(item, currNode)
   }
 
   insertAfter(item, itemAfter) {
@@ -86,38 +66,18 @@ class LinkedList {
 
     while (currPos <= pos + 1 && currNode !== null) {
 
-      console.log('in while loop')
+
       prevNode = currNode;
       currNode = currNode.next;
       currPos += 1;
     }
-    // console.log('prevNode.next before moving',prevNode.next)
-    // console.log('currNode is',currNode)
+
     prevNode.next = new Node(item, currNode);
-    console.log('new node inserted')
-    //id1's next (2) = prevNode.next.next.value.id (4)
-    // console.log(prevNode.next.value.next, prevNode.next.next.value.id)
-
-    ////// updating the node before the newly inserted node
-    ////// updating the databases' 'next' 
-    // console.log( 'is the prev.node', prevNode.value.id)
-
 
     prevNode.value.next = prevNode.next.value.id
 
-    ///// updating the newly inserted, databases' 'next' 
     prevNode.next.value.next = prevNode.next.next.value.id
-    // console.log('prevNode.next AFTER moving',prevNode.next)
-
-  }
-
-  createCycle(data) {
-    let cyclePoint = this.head.next;
-    let tempNode = this.head;
-    while (tempNode.next !== null) {
-      tempNode = tempNode.next;
-    }
-    tempNode.next = new Node(data, cyclePoint);
+   
   }
 
 
@@ -136,15 +96,12 @@ class LinkedList {
     return currNode;
   }
   remove(item) {
-    // console.log('in remove--------------')
-    // console.log(item)
 
     let removedNode
     if (!this.head) {
       return null;
     }
     if (this.head.value === item) {
-      // console.log('in remove',this.head)
       removedNode = this.head.value.id
       this.head = this.head.next;
       return removedNode;
@@ -156,10 +113,8 @@ class LinkedList {
       currNode = currNode.next;
     }
     if (currNode === null) {
-      // console.log('Item not found');
       return;
     }
-
     prevNode.next = currNode.next;
   }
 }
