@@ -71,7 +71,14 @@ languageRouter
   .post('/guess', async (req, res, next) => {
     try {
 
+      
       const { guess } = req.body;
+
+      if(!guess) {
+        return res.status(400).json({
+          error: "Missing 'guess' in request body"
+        })
+      }
       // console.log('guess:', guess)
       // const list = await LanguageService.generateLinkedList(
       //   req.app.get('db'),
@@ -90,20 +97,20 @@ languageRouter
       // console.log(verdict)
       // LanguageService.updateLinkedList(verdict, list);
       const updatedList = LanguageService.updateLinkedList(verdict, altList, req.app.get('db'));
-      console.log('in /guess', JSON.stringify(updatedList, null, 2))
+      // console.log('in /guess', JSON.stringify(updatedList, null, 2))
 
       LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
       // LanguageService.updateBeforeMovedWordDatabase(req.app.get('db'), updatedList)
 
       let values = listHelpers.find(updatedList, currentQid)
-      
+
       res.json({
         answer: values.translation,
         isCorrect: verdict,
         nextWord: updatedList.head.value.original,
         totalScore: updatedList.total_score,
-        wordCorrectCount: values.correct_count,
-        wordIncorrectCount: values.incorrect_count
+        wordCorrectCount: updatedList.head.value.correct_count,//values.correct_count,
+        wordIncorrectCount: updatedList.head.value.incorrect_count//values.incorrect_count
       })
       next()
     } catch (error) {

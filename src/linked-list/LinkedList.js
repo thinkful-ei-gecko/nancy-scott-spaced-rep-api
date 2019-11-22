@@ -57,21 +57,33 @@ class LinkedList {
     currNode.next = new Node(item, currPlusOne)
   }
 
+  size() {
+    if (!this.head) {
+      return 0
+    }
+    let currNode = this.head.next;
+    let currPos = 1;
+    while(currNode) {
+      currNode = currNode.next;
+      currPos += 1;
+    }
+
+    return currPos;
+  }
+
   insertAt(item, pos) {
-  // console.log('item is', item)
-  //   console.log('this.head is ',this.head)
-    // console.log('linked is ', ll)
+
+    if(pos > this.size()) {
+        return this.insertLast(item)
+      }
     if (!this.head) {
       this.insertFirst(item);
     }
-    // if (pos <= 1) {
-    //   this.head = new Node(item, this.head)
 
-    // }
     let prevNode = this.head;
     let currNode = this.head;
     let currPos = 1;
-    
+
     while (currPos <= pos + 1 && currNode !== null) {
 
       console.log('in while loop')
@@ -124,15 +136,15 @@ class LinkedList {
     return currNode;
   }
   remove(item) {
-    console.log('in remove--------------')
-    console.log(item)
+    // console.log('in remove--------------')
+    // console.log(item)
 
     let removedNode
     if (!this.head) {
       return null;
     }
     if (this.head.value === item) {
-      console.log('in remove',this.head)
+      // console.log('in remove',this.head)
       removedNode = this.head.value.id
       this.head = this.head.next;
       return removedNode;
@@ -144,7 +156,7 @@ class LinkedList {
       currNode = currNode.next;
     }
     if (currNode === null) {
-      console.log('Item not found');
+      // console.log('Item not found');
       return;
     }
 

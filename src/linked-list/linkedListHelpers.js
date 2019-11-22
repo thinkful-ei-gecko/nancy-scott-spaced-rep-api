@@ -10,23 +10,10 @@ const listHelpers = {
       currPos += 1;
     }
   },
-  size(linkedList) {
-    if (!linkedList.head) {
-      return 'no values in list'
-    }
-    let currNode = linkedList.head.next;
-    let currPos = 1;
-    while(currNode) {
-      currNode = currNode.next;
-      currPos += 1;
-    }
 
-    return currPos;
-  },
   isEmpty(linkedList) {
     return !linkedList.head;
   },
-
 
   findPreviousId(linkedList, id) {
     let prevNode = linkedList.head;
@@ -42,7 +29,7 @@ const listHelpers = {
         currNode = currNode.next;
       }
     }
-    console.log('in findprevious', prevNode)
+    // console.log('in findprevious', prevNode)
     return prevNode.value.id
   },
 

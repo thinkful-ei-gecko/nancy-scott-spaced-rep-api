@@ -96,14 +96,24 @@ const LanguageService = {
     // }
     // console.log('in linkedlist generator', JSON.stringify(linkedList, null, 2))
     // return linkedList;
-      // console.log('IN revGenLinkedList',language, words )
-      const ll = new LinkedList();
-      ll.id = language.id;
-      ll.name = language.name;
-      ll.total_score = language.total_score;
-      console.log('LangHead:',language.head);
-      let word = words.find(w => w.id === language.head)
-      ll.insertFirst({
+    // console.log('IN revGenLinkedList',language, words )
+    const ll = new LinkedList();
+    ll.id = language.id;
+    ll.name = language.name;
+    ll.total_score = language.total_score;
+    // console.log('LangHead:', language.head);
+    let word = words.find(w => w.id === language.head)
+    ll.insertFirst({
+      id: word.id,
+      original: word.original,
+      translation: word.translation,
+      memory_value: word.memory_value,
+      correct_count: word.correct_count,
+      incorrect_count: word.incorrect_count,
+    })
+    while (word.next) {
+      word = words.find(w => w.id === word.next)
+      ll.insertLast({
         id: word.id,
         original: word.original,
         translation: word.translation,
@@ -111,26 +121,16 @@ const LanguageService = {
         correct_count: word.correct_count,
         incorrect_count: word.incorrect_count,
       })
-      while (word.next) {
-        word = words.find(w => w.id === word.next)
-        ll.insertLast({
-          id: word.id,
-          original: word.original,
-          translation: word.translation,
-          memory_value: word.memory_value,
-          correct_count: word.correct_count,
-          incorrect_count: word.incorrect_count,
-        })
-      }
-      return ll
-    
+    }
+    return ll
+
   },
 
   async updateDBTotalScore(db, langId, totalScore) {
     let newScore = totalScore + 1
     return await db('language')
       .where('id', langId)
-      .update({total_score: newScore})
+      .update({ total_score: newScore })
   },
 
 
@@ -139,13 +139,9 @@ const LanguageService = {
 
     if (wasCorrect) {
       this.updateDBTotalScore(db, linkedList.id, linkedList.total_score)
-      linkedList.total_score++ //updating the linkedLists totalscore
-      // if(linkedList.head.value.memory_value *= 2 > listHelpers.size(linkedList)) {
-      //   linkedList.head.value.memory_value = listHelpers.size(linkedList)
-      // }
-      // else {
-        linkedList.head.value.memory_value *= 2;
-      // }
+      linkedList.total_score++
+      linkedList.head.value.memory_value *= 2;
+
       linkedList.head.value.correct_count++;
 
     } else {
@@ -158,13 +154,13 @@ const LanguageService = {
 
     this.updateMovedWordDatabase(db, linkedList.head.value.id, linkedList.head.value.memory_value, linkedList.head.value.correct_count, linkedList.head.value.incorrect_count, linkedList.head.value.next)
 
-    let updatedNext = linkedList.head.value.id 
+    let updatedNext = linkedList.head.value.id
 
     //.remove returns the id of the node it st removed
     let idRemoved = linkedList.remove(linkedList.head.value)
 
     let changeNextId = listHelpers.findPreviousId(linkedList, idRemoved)
-    
+
     this.updateBeforeMovedWordDatabase(db, changeNextId, updatedNext)
     // console.log('THIS SHOULD BE THE UPDATED LINKEDLIST',JSON.stringify(linkedList, null, 2))
     return linkedList
@@ -182,18 +178,18 @@ const LanguageService = {
   },
 
 
-  async updateBeforeMovedWordDatabase(db, wordId, updatedNext){
+  async updateBeforeMovedWordDatabase(db, wordId, updatedNext) {
     // console.log('in updateBforeMoved', wordId, updatedNext)
     return await db('word')
-    .where('id', wordId)
-    .update({
-      next: updatedNext
-    })
+      .where('id', wordId)
+      .update({
+        next: updatedNext
+      })
   },
 
   async updateLanguageDatabase(db, linkedList, user_id) {
     // use knex to insert updated LinkedList into db
-    console.log('in update lang db', linkedList.head.value.id, user_id)
+    // console.log('in update lang db', linkedList.head.value.id, user_id)
     return await db('language')
       .where('user_id', user_id)
       .update({ head: linkedList.head.value.id })
