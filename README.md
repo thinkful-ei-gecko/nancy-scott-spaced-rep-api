@@ -1,4 +1,24 @@
-# Spaced repetition API!
+# AlgorithMe API!
+
+# About
+
+The AlgorithMe API is spaced-repetition algorithm for, well, algorithms. It is designed to work with the AlgorithMe client.
+The AlgorithMe client can be found here: https://github.com/thinkful-ei-gecko/nancy-scott-spaced-repetition-client
+
+The API supports the following endpoints:
+
+GET
+api/language - returns the users languages, their words, and scores for each word
+api/language/head - returns the next word in the queue for the user to study
+
+POST
+api/language/guess - posts the guess, returning the results and whether or not the user was correct
+
+POST
+api/auth/token - signs the user in and returns a JWT
+
+POST 
+api/user/ - creates a new user
 
 ## Local dev setup
 
