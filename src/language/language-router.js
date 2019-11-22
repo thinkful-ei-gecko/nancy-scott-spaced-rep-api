@@ -47,7 +47,6 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    // console.log('in head')
     try {
       const headWord = await LanguageService.getHead(
         req.app.get('db'),
@@ -79,29 +78,17 @@ languageRouter
           error: "Missing 'guess' in request body"
         })
       }
-      // console.log('guess:', guess)
-      // const list = await LanguageService.generateLinkedList(
-      //   req.app.get('db'),
-      //   req.user.id
-      // )
-
       let language =  await LanguageService.getUsersLanguage(req.app.get('db'), req.user.id)
       let words = await LanguageService.getLanguageWords(req.app.get('db'), language.id)
-      // console.log(language, words)
-      // let words = LanguageService.getLanguageWords(req.app.get('db'), language.id)
+
       const altList = await LanguageService.revGenLinkedList(language,words)
 
       let currentQid = altList.head.value.id
-
       const verdict = guess === altList.head.value.translation;
-      // console.log(verdict)
-      // LanguageService.updateLinkedList(verdict, list);
       const updatedList = LanguageService.updateLinkedList(verdict, altList, req.app.get('db'));
-      // console.log('in /guess', JSON.stringify(updatedList, null, 2))
-
+      
       LanguageService.updateLanguageDatabase(req.app.get('db'), updatedList, req.user.id)
-      // LanguageService.updateBeforeMovedWordDatabase(req.app.get('db'), updatedList)
-
+     
       let values = listHelpers.find(updatedList, currentQid)
 
       res.json({

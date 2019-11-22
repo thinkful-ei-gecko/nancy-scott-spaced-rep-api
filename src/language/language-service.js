@@ -48,60 +48,13 @@ const LanguageService = {
       )
       .where({ language_id })
   },
-  // async generateLinkedList(db, user_id) {
-
-  //   const dataset = await this.getUsersWords(db, user_id);
-  //   const linkedList = new LinkedList();
-  //   // console.log('dataset is', dataset)
-  //   dataset.forEach(word => linkedList.insertLast({
-  //     id: word.id,
-  //     language_id: word.language_id,
-  //     original: word.original,
-  //     translation: word.translation,
-  //     next: word.next,
-  //     memory_value: word.memory_value,
-  //     correct_count: word.correct_count,
-  //     incorrect_count: word.incorrect_count,
-  //   }))
-  //   return linkedList;
-  // },
 
   async revGenLinkedList(language, words) {
-    // const dataset = await this.getUsersWords(db, user_id);
-    // const language = await this.getUsersLanguage(db, user_id);
 
-    // console.log(dataset)
-    // const linkedList = new LinkedList();
-
-    // let nextItem = language.head;
-
-    // for (let i = 0; i < dataset.length; i++) {
-    //   let word = dataset[i];
-    //   console.log('word id: ' + word.id);
-    //   console.log(nextItem);
-    //   if (word.id === nextItem) {
-    //     linkedList.insertLast({
-    //       id: word.id,
-    //       language_id: word.language_id,
-    //       original: word.original,
-    //       translation: word.translation,
-    //       next: word.next,
-    //       memory_value: word.memory_value,
-    //       correct_count: word.correct_count,
-    //       incorrect_count: word.incorrect_count,
-    //     })
-    //     nextItem = word.next;
-    //     i = 0;
-    //   }
-    // }
-    // console.log('in linkedlist generator', JSON.stringify(linkedList, null, 2))
-    // return linkedList;
-    // console.log('IN revGenLinkedList',language, words )
     const ll = new LinkedList();
     ll.id = language.id;
     ll.name = language.name;
     ll.total_score = language.total_score;
-    // console.log('LangHead:', language.head);
     let word = words.find(w => w.id === language.head)
     ll.insertFirst({
       id: word.id,
@@ -133,7 +86,6 @@ const LanguageService = {
       .update({ total_score: newScore })
   },
 
-
   // spaced rep algorithm
   updateLinkedList(wasCorrect, linkedList, db) {
 
@@ -162,7 +114,7 @@ const LanguageService = {
     let changeNextId = listHelpers.findPreviousId(linkedList, idRemoved)
 
     this.updateBeforeMovedWordDatabase(db, changeNextId, updatedNext)
-    // console.log('THIS SHOULD BE THE UPDATED LINKEDLIST',JSON.stringify(linkedList, null, 2))
+
     return linkedList
   },
 
@@ -179,7 +131,6 @@ const LanguageService = {
 
 
   async updateBeforeMovedWordDatabase(db, wordId, updatedNext) {
-    // console.log('in updateBforeMoved', wordId, updatedNext)
     return await db('word')
       .where('id', wordId)
       .update({
@@ -188,8 +139,6 @@ const LanguageService = {
   },
 
   async updateLanguageDatabase(db, linkedList, user_id) {
-    // use knex to insert updated LinkedList into db
-    // console.log('in update lang db', linkedList.head.value.id, user_id)
     return await db('language')
       .where('user_id', user_id)
       .update({ head: linkedList.head.value.id })
