@@ -46,7 +46,7 @@ const UserService = {
       const [languageId] = await trx
         .into('language')
         .insert([
-          { name: 'French', user_id },
+          { name: 'Algorithms', user_id },
         ], ['id'])
 
       // when inserting words,
@@ -58,14 +58,17 @@ const UserService = {
         .first()
 
       const languageWords = [
-        ['bubbleSort.png', 'bubble sort', 2],
-        ['quickSort.png', 'quick sort', 3],
-        ['mergeSort.png', 'merge sort', 4],
-        ['binarySearch.png', 'binary search', 5],
-        ['inOrderTraversal.png', 'in-order traversal', 6],
-        ['combSort.png', 'comb sort', 7],
-        ['heapSort.png', 'heap sort', 8],
-        ['postOrderTraversal.png', 'post-order traversal', null],
+        ['algOne.png', 'bubble sort', 2],
+        ['algTwo.png', 'quick sort', 3],
+        ['algThree.png', 'merge sort', 4],
+        ['algFour.png', 'binary search', 5],
+        ['algFive.png', 'in-order traversal', 6],
+        ['algSix.png', 'comb sort', 7],
+        ['AlgSeven.png', 'heap sort', 8],
+        ['algEight.png', 'post-order traversal', 9],
+        ['algNine.png', 'linear search', 10],
+        ['algTen.png', 'pre-order traversal', 11],
+        ['algEleven.png', 'cycle detection', null],
       ]
 
       const [languageHeadId] = await trx
