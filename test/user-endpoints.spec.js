@@ -172,17 +172,20 @@ describe('User Endpoints', function () {
           name: 'test name',
         }
         const expectedList = {
-          name: 'French',
+          name: 'Algorithms',
           total_score: 0,
           words: [
-            { original: 'bubbleSort.png', translation: 'bubble sort' },
-            { original: 'quickSort.png', translation: 'quick sort' },
-            { original: 'mergeSort.png', translation: 'merge sort' },
-            { original: 'binarySearch.png', translation: 'binary search' },
-            { original: 'inOrderTraversal.png', translation: 'in-order traversal' },
-            { original: 'combSort.png', translation: 'comb sort' },
-            { original: 'heapSort.png', translation: 'heap sort' },
-            { original: 'postOrderTraversal.png', translation: 'post-order traversal' },
+            { original: 'algOne.png', translation: 'bubble sort' },
+            { original: 'algTwo.png', translation: 'quick sort' },
+            { original: 'algThree.png', translation: 'merge sort' },
+            { original: 'algFour.png', translation: 'binary search' },
+            { original: 'algFive.png', translation: 'in-order traversal' },
+            { original: 'algSix.png', translation: 'comb sort' },
+            { original: 'AlgSeven.png', translation: 'heap sort' },
+            { original: 'algEight.png', translation: 'post-order traversal' },
+            { original: 'algNine.png', translation: 'linear search' },
+            { original: 'algTen.png', translation: 'pre-order traversal' },
+            { original: 'algEleven.png', translation: 'cycle detection' },
           ]
         }
         return supertest(app)
